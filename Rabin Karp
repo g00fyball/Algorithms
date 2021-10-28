@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int d=256;
+
+void helper(string s1,string s2,int q)
+{
+    int n=s1.length(),m=s2.length();
+    
+    int l1=0,l2=0,h=1;
+    
+    int i,j;
+    
+    for(i=0;i<m-1;i++)
+    {
+        h=(h*d)%q;
+    }
+    
+    for(i=0;i<m;i++)
+    {
+        l1=(l1*d+s1[i])%q;
+        l2=(l2*d+s2[i])%q;
+    }
+    
+    for(i=0;i<=n-m;i++)
+    {
+        if(l1==l2)
+        {
+            int f=false;
+            for(j=0;j<m;j++)
+            {
+                if(s1[i+j]!=s2[j])
+                {
+                    f=true;
+                    break;
+                }
+            }
+            
+            if(j==m)
+            {
+                cout<<"found at index "<<i<<endl;
+            }
+        }
+        
+        if(i<n-m)
+        {
+            l1=(d*(l1-h*s1[i])+s1[i+m])%q;
+            
+            if(l1<0)
+                l1=l1+q;
+        }
+    }
+}
+
+int main()
+{
+    string s1,s2;
+    cin>>s1>>s2;
+    
+    int q=101;
+    
+    helper(s1,s2,q);
+    return 0;
+}
