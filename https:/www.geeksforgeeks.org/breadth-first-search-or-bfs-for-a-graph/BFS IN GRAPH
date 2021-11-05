@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class graph
+{
+    private:
+        int V;
+        list<int> *adj;
+        
+    public:
+        graph(int u)
+        {
+            V=u;
+            adj=new list<int> [u];
+        }
+        
+        void addEdge(int u,int v);
+        
+        vector<int> bfs(int src);
+};
+
+void graph::addEdge(int u,int v)
+{
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+vector<int> graph::bfs(int i)
+{
+    vector<int> vis(V,0);
+    vector<int> ans;
+    
+    /*
+    for(int i=0;i<V;i++)
+    {
+    */
+        if(!vis[i])
+        {
+            queue<int> q;
+            
+            q.push(i);
+            
+            vis[i]=1;
+            
+            while(!q.empty())
+            {
+                int t=q.front();
+                q.pop();
+                
+                ans.push_back(t);
+                
+                for(auto j:adj[t])
+                {
+                    if(!vis[j])
+                    {
+                        q.push(j);
+                        vis[j]=1;
+                    }
+                }
+            }
+        }
+        /*
+    }*/
+    
+    return ans;
+}
+
+int main()
+{
+    int v;
+    cin>>v;
+    graph g(v);
+    
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+
+    vector<int> ans=g.bfs(2);
+    
+    for(int i=0;i<ans.size();i++)
+    {
+        cout<<ans[i]<<endl;
+    }
+    
+    return 0;
+}
