@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class graph
+{
+    private:
+        int V;
+        list<int> *adj;
+        
+    public:
+        graph(int u)
+        {
+            V=u;
+            adj=new list<int> [u];
+        }
+        
+        void addEdge(int u,int v);
+    
+        vector<int> dfs(int src);
+        
+        void dfsutil(int src,vector<int>& ans,vector<int> &vis);
+};
+
+void graph::addEdge(int u,int v)
+{
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+void graph::dfsutil(int src,vector<int>& ans,vector<int> &vis)
+{
+    ans.push_back(src);
+    vis[src]=1;
+    
+    for(auto i:adj[src])
+    {
+        if(!vis[i])
+        {
+            dfsutil(i,ans,vis);
+        }
+    }
+}
+
+vector<int> graph::dfs(int i)
+{
+    vector<int> vis(V,0);
+    vector<int> ans;
+    
+    dfsutil(i,ans,vis);
+    
+    return ans;
+}
+
+int main()
+{
+    int v;
+    cin>>v;
+    graph g(v);
+    
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+
+    vector<int> ans=g.dfs(2);
+    
+    for(int i=0;i<ans.size();i++)
+    {
+        cout<<ans[i]<<endl;
+    }
+    
+    return 0;
+}
