@@ -1,0 +1,50 @@
+class Solution {
+public:
+
+    bool helper(vector<int> adj[],int src,vector<int> &vis)
+    {
+        queue<int> q;
+        
+        q.push(src);
+        
+        vis[src]=1;
+        
+        while(!q.empty())
+        {
+            int p=q.front();
+            q.pop();
+            
+            for(auto i:adj[p])
+            {
+                if(vis[i]==-1)
+                {
+                    vis[i]=1-vis[p];
+                    q.push(i);
+                }
+                else
+                if(vis[i]==vis[p])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+	bool isBipartite(int V, vector<int>adj[]){
+	    
+	    vector<int> vis(V,-1);
+	    
+	    for(int i=0;i<V;i++)
+	    {
+	        if(vis[i]==-1)
+	        {
+	            if(!helper(adj,i,vis))
+	                return false;
+	        }
+	    }
+	    
+	    return true;
+	}
+
+};
