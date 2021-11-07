@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+    bool helper(vector<int> adj[],int src,vector<int> &vis)
+    {
+        
+        for(auto i:adj[src])
+        {
+            if(vis[i]==-1)
+            {
+                vis[i]=1-vis[src];
+                
+                if(!helper(adj,i,vis))
+                    return false;
+            }
+            else
+            if(vis[i]==vis[src])
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+	bool isBipartite(int V, vector<int>adj[]){
+	    
+	    vector<int> vis(V,-1);
+	    
+	    for(int i=0;i<V;i++)
+	    {
+	        if(vis[i]==-1)
+	        {
+	            vis[i]=1;
+	            if(!helper(adj,i,vis))
+	                return false;
+	        }
+	    }
+	    
+	    return true;
+	}
+
+};
